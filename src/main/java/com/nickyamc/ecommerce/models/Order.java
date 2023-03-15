@@ -1,13 +1,27 @@
 package com.nickyamc.ecommerce.models;
 
-import java.util.Date;
+import jakarta.persistence.*;
 
+import java.util.Date;
+import java.util.List;
+
+@Entity
+@Table(name = "orders")
 public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String number;
     private Date dateCreated;
     private Date dateReceived;
     private double total;
+
+    @ManyToOne
+    private User user;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> details;
 
     public Order() {
 
@@ -59,6 +73,22 @@ public class Order {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<OrderDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<OrderDetail> details) {
+        this.details = details;
     }
 
     @Override
